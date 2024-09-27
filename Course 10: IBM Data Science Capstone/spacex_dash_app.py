@@ -15,7 +15,7 @@ min_payload = spacex_df['Payload Mass (kg)'].min()
 app = dash.Dash(__name__)
 
 # Create an app layout
-app.layout = html.Div(children=[html.H1('SpaceX Launch Records Dashboard',
+app.layout = html.Div(children=[html.H1('MahmoudSpaceX Launch Records Dashboard',
                                         style={'textAlign': 'center', 'color': '#503D36',
                                                'font-size': 40}),
                                 # TASK 1: Add a dropdown list to enable Launch Site selection
@@ -58,7 +58,7 @@ app.layout = html.Div(children=[html.H1('SpaceX Launch Records Dashboard',
 def get_pie_chart(entered_site):
     filtered_df = spacex_df
     if entered_site == 'ALL':
-        fig = px.pie(data, values='class', 
+        fig = px.pie(filtered_df, values='class', 
         names='Launch Site', 
         title='Count of Successful Launches by Site')
         return fig
@@ -66,7 +66,9 @@ def get_pie_chart(entered_site):
         # return the outcomes piechart for a selected site
         filtered_df=spacex_df[spacex_df['Launch Site']== entered_site]
         filtered_df=filtered_df.groupby(['Launch Site','class']).size().reset_index(name='class count')
-        fig=px.pie(filtered_df,values='class count',names='class',title=f"Count of Successful Launches for site {entered_site}")
+        fig=px.pie(filtered_df,values='class count',
+        names='class',
+        title=f"Count of Successful Launches for site {entered_site}")
         return fig
 
 # TASK 4:
